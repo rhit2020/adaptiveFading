@@ -8,4 +8,23 @@
     <servlet-name>AdaptiveFading</servlet-name>
     <url-pattern>/AdaptiveFading</url-pattern>
   </servlet-mapping>
+  
+    <servlet>
+    <servlet-name>ProcessAttempt</servlet-name>
+    <servlet-class>ProcessAttempt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ProcessAttempt</servlet-name>
+    <url-pattern>/ProcessAttempt</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>StoreFeedback</servlet-name>
+    <servlet-class>StoreFeedback</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>StoreFeedback</servlet-name>
+    <url-pattern>/StoreFeedback</url-pattern>
+  </servlet-mapping>
+  
  </web-app>

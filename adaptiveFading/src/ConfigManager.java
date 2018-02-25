@@ -16,6 +16,13 @@ public class ConfigManager {
     public String dbuser;
     public String dbpass;   
  	public String relative_resource_path;
+    public String agg_dbstring;
+    public String agg_dbuser;
+    public String agg_dbpass;   
+    public String um2_dbstring;
+    public String um2_dbuser;
+    public String um2_dbpass; 
+
 
 	private static String config_string = "./WEB-INF/config.xml";
 
@@ -36,6 +43,18 @@ public class ConfigManager {
 				dbuser = doc.getElementsByTagName("dbuser").item(0)
 						.getTextContent().trim();
 				dbpass = doc.getElementsByTagName("dbpass").item(0)
+						.getTextContent().trim();
+				agg_dbstring = doc.getElementsByTagName("agg_dbstring").item(0)
+						.getTextContent().trim();
+				agg_dbuser = doc.getElementsByTagName("agg_dbuser").item(0)
+						.getTextContent().trim();
+				agg_dbpass = doc.getElementsByTagName("agg_dbpass").item(0)
+						.getTextContent().trim();
+				um2_dbstring = doc.getElementsByTagName("um2_dbstring").item(0)
+						.getTextContent().trim();
+				um2_dbuser = doc.getElementsByTagName("um2_dbuser").item(0)
+						.getTextContent().trim();
+				um2_dbpass = doc.getElementsByTagName("um2_dbpass").item(0)
 						.getTextContent().trim();
 			}
         } catch (Exception e) {
