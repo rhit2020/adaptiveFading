@@ -60,20 +60,29 @@ public class AdaptiveFading extends HttpServlet {
 		if (A.equals("1")) {
 			//call cache
 			HashMap<String,Double> kmap = GetKCSummary.getItemKCEstimates(usr, grp);
+			//System.out.println("#####################");
+			//System.out.println(usr+" "+item);
+			//System.out.println("blankLine:  " + blankLines);
 
+			//System.out.println(kmap);
+			
 			if (item != null) {
 				HashMap<Integer,List<String>> lineConcept = content_concept_map.get(item);
+				//System.out.println("lineConcepts:  " + lineConcept);
+
 				List<String> concepts;
 				double average;
 				int count;
 				if (lineConcept != null) {
 					for (int bline : blankLines) {
 						concepts = lineConcept.get(bline-1); //note:sline = bline - 1, sline starts from 0, bline starts from 1
+						//System.out.println("concept for blank  " + bline + ":" + concepts);
 						if (concepts != null) {
 							average = 0;
 							count = 0;
 							for (String c : concepts) {
 								if (kmap.get(c) != null) {
+									//System.out.println("~~~"+c+" : "+kmap.get(c));
 									average += kmap.get(c);
 									count++;
 								}
@@ -84,7 +93,10 @@ public class AdaptiveFading extends HttpServlet {
 							}
 							else
 								average = average / count; 
+							//System.out.println("Average: "+average);
+
 							if (average < 0.7) {
+								//System.out.println("Blank "+bline +" will be shown");
 								linesToBeShown.add(bline);
 							}
 						}
@@ -104,6 +116,7 @@ public class AdaptiveFading extends HttpServlet {
 		out.print(output);
 		
 	}
+
 
 	private String getLinesToShow(List<Integer> linesToBeShown) {
 		String txt = "";
