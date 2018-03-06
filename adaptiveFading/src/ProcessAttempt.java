@@ -3,6 +3,7 @@
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,6 +24,7 @@ public class ProcessAttempt extends HttpServlet {
 	 * The course-contents relationship data structure (STATIC)
 	 * --------------------------------------------------------- */			
 	private static HashMap<String, String> course_contents;
+	private static HashMap<String,List<Integer>> challenge_blank_map;
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -49,6 +51,9 @@ public class ProcessAttempt extends HttpServlet {
 		String prevAttempt = request.getParameter("prevAttempt"); // name of the previous attempt
 		String event = request.getParameter("event"); // event 
 		
+		if (challenge_blank_map == null) 
+			challenge_blank_map = getChallengeBlankMap() ; //fill the static variable the first time
+
 		String cid = "351"; // course id
 		/*---------------------------------------------------------
 		 * Getting Data that we need for computation of student progress
@@ -73,7 +78,7 @@ public class ProcessAttempt extends HttpServlet {
 		
 		Double result = getPrevAttemptResult(usr, grp, prevAttempt);
 		//if the prev result is not null, send an asynchronous call to update BN beliefs
-		if (result != null && contents != null && contents.isEmpty() == false) {
+		if (result != null && contents != null && contents.isEmpty() == false && challenge_blank_map.containsKey(prevAttempt) == false) {
 			String params = createParamJSON(usr, grp, prevAttempt, result, contents, event);
 			HttpAsyncClientInterface.getInstance().sendHttpAsynchPostRequest(params);
 		}
@@ -129,6 +134,16 @@ public class ProcessAttempt extends HttpServlet {
 		json.put("contents", contents);
 		json.put("event", event);
 		return json.toString();
+	}
+	
+	private HashMap<String, List<Integer>> getChallengeBlankMap() {
+		DB db;
+		ConfigManager cm = new ConfigManager(this);
+		db = new DB(cm.dbstring,cm.dbuser,cm.dbpass);
+		db.openConnection();
+		HashMap<String, List<Integer>> map = db.getChallengeBlankMap();
+		db.closeConnection();
+		return map;
 	}
 	
 
